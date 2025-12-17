@@ -1,31 +1,79 @@
 <%- include('../partials/header', { title: 'My Reading List' }) %>
 
-<h1>My Reading List</h1>
+<main class="container">
+  <h1>My Reading List</h1>
 
-<% if (items.length === 0) { %>
-  <p>No books in your reading list yet.</p>
-<% } %>
+  <% if (items.length === 0) { %>
+    <p class="empty-state">
+      You haven’t added any books yet.
+      <br />
+      <a href="/books">Search for books to get started →</a>
+    </p>
+  <% } else { %>
 
-<ul>
-  <% items.forEach(item => { %>
-    <li>
-      <strong><%= item.book.title %></strong>
-      (<%= item.status %>)
+    <section class="reading-list-grid">
+      <% items.forEach(item => { %>
+        <article class="reading-list-card">
 
-      <form action="/reading-list/<%= item._id %>/update" method="POST">
-        <select name="status">
-          <option value="to-read">To Read</option>
-          <option value="reading">Reading</option>
-          <option value="completed">Completed</option>
-        </select>
-        <button type="submit">Update</button>
-      </form>
+          <header class="card-header">
+            <h2 class="book-title"><%= item.book.title %></h2>
+            <p class="book-author"><%= item.book.author %></p>
+          </header>
 
-      <form action="/reading-list/<%= item._id %>/delete" method="POST">
-        <button type="submit">Remove</button>
-      </form>
-    </li>
-  <% }) %>
-</ul>
+          <div class="card-body">
+            <p class="reading-status">
+              Status:
+              <strong><%= item.status.replace('-', ' ') %></strong>
+            </p>
+
+            <form
+              action="/reading-list/<%= item._id %>/update"
+              method="POST"
+              class="status-form"
+            >
+              <label for="status-<%= item._id %>">Update status:</label>
+
+              <select
+                id="status-<%= item._id %>"
+                name="status"
+              >
+                <option value="to-read" <%= item.status === 'to-read' ? 'selected' : '' %>>
+                  To Read
+                </option>
+                <option value="reading" <%= item.status === 'reading' ? 'selected' : '' %>>
+                  Reading
+                </option>
+                <option value="completed" <%= item.status === 'completed' ? 'selected' : '' %>>
+                  Completed
+                </option>
+              </select>
+
+              <button type="submit" class="btn btn-update">
+                Update
+              </button>
+            </form>
+          </div>
+
+          <footer class="card-footer">
+            <form
+              action="/reading-list/<%= item._id %>/delete"
+              method="POST"
+              onsubmit="return confirm('Remove this book from your reading list?');"
+            >
+              <button
+                type="submit"
+                class="btn btn-danger"
+              >
+                Remove
+              </button>
+            </form>
+          </footer>
+
+        </article>
+      <% }) %>
+    </section>
+
+  <% } %>
+</main>
 
 <%- include('../partials/footer') %>

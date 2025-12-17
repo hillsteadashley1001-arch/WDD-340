@@ -13,6 +13,8 @@ const sessionConfig = require('./config/session');
 
 const app = express();
 
+app.use(express.static('public'));
+
 /* ---------- VIEW ENGINE ---------- */
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
@@ -24,6 +26,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 /* ---------- SESSION ---------- */
 app.use(session(sessionConfig));
+
+/* ---------- USER ---------- */
+app.use((req, res, next) => {
+  res.locals.user = req.user || null;
+  next();
+});
 
 /* ---------- PASSPORT ---------- */
 app.use(passport.initialize());

@@ -1,26 +1,36 @@
-<!DOCTYPE html>
-<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title><%= title || 'Reading List App' %></title>
-  <link rel="stylesheet" href="/css/layout.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reading List App</title>
+    <link rel="stylesheet" href="/css/style.css" />
 </head>
-<body>
 
-<header>
-  <nav>
-    <a href="/">Home</a>
-    <a href="/books">Search Books</a>
+<header class="site-header">
+  <div class="container header-content">
 
-    <% if (currentUser) { %>
-      <a href="/reading-list">My Reading List</a>
-      <form action="/auth/logout" method="POST" style="display:inline;">
-        <button type="submit">Logout</button>
-      </form>
-    <% } else { %>
-      <a href="/auth/google">Login</a>
-    <% } %>
-  </nav>
+    <div class="brand">
+      <a href="/" class="logo">📚 Reading List</a>
+    </div>
+
+    <nav class="main-nav">
+      <a href="/books">Search Books</a>
+
+      <% if (user) { %>
+        <a href="/reading-list">My Reading List</a>
+      <% } %>
+    </nav>
+
+    <div class="auth-controls">
+      <% if (user) { %>
+        <span class="user-name">Signed in as <strong><%= user.name %></strong></span>
+
+        <form action="/auth/logout" method="POST" class="logout-form">
+          <button type="submit" class="btn btn-logout">Logout</button>
+        </form>
+      <% } else { %>
+        <a href="/auth/google" class="btn btn-login">Sign in with Google</a>
+      <% } %>
+    </div>
+
+  </div>
 </header>
-
-<main>
