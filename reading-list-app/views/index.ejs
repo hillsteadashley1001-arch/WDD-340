@@ -1,0 +1,14 @@
+<%- include('partials/header') %>
+
+<h1>Reading List App</h1>
+
+<% if (!currentUser) { %>
+  <a href="/auth/google">Login with Google</a>
+<% } else { %>
+  <p>Welcome, <%= currentUser.name %></p>
+  <form action="/auth/logout" method="POST">
+    <button type="submit">Logout</button>
+  </form>
+<% } %>
+
+<%- include('partials/footer') %>
