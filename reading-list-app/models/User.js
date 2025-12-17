@@ -1,0 +1,41 @@
+/**
+ * User model
+ * Stores authenticated users from Google OAuth
+ */
+const mongoose = require('mongoose');
+
+const userSchema = new mongoose.Schema(
+  {
+    googleId: {
+      type: String,
+      required: true,
+      unique: true
+    },
+    name: {
+      type: String,
+      required: true
+    },
+    email: {
+      type: String,
+      required: true,
+      unique: true
+    },
+    avatar: {
+      type: String
+    },
+    role: {
+      type: String,
+      enum: ['user', 'admin'],
+      default: 'user'
+    },
+    isActive: {
+      type: Boolean,
+      default: true
+    }
+  },
+  {
+    timestamps: true
+  }
+);
+
+module.exports = mongoose.model('User', userSchema);
