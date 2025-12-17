@@ -1,14 +1,13 @@
-<%- include('partials/header') %>
+<%- include('partials/header', { title: 'Home' }) %>
 
-<h1>Reading List App</h1>
+<h1>Welcome to the Reading List App</h1>
+
+<p>
+  Search for books, track your reading progress, and leave reviews.
+</p>
 
 <% if (!currentUser) { %>
   <a href="/auth/google">Login with Google</a>
-<% } else { %>
-  <p>Welcome, <%= currentUser.name %></p>
-  <form action="/auth/logout" method="POST">
-    <button type="submit">Logout</button>
-  </form>
 <% } %>
 
 <%- include('partials/footer') %>

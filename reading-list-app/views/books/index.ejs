@@ -1,0 +1,45 @@
+<%- include('../partials/header', { title: 'Search Books' }) %>
+
+<h1>Search Books</h1>
+
+<form action="/books/search" method="GET">
+  <input
+    type="text"
+    name="q"
+    placeholder="Search by title or author"
+    value="<%= query %>"
+    required
+  />
+  <button type="submit">Search</button>
+</form>
+
+<section class="book-results">
+  <% books.forEach(book => { %>
+    <div class="book-card">
+      <h3><%= book.volumeInfo?.title || book.title %></h3>
+
+      <% if (book.volumeInfo?.imageLinks?.thumbnail || book.coverImage) { %>
+        <img
+          src="<%= book.volumeInfo?.imageLinks?.thumbnail || book.coverImage %>"
+          alt="Book cover"
+        />
+      <% } %>
+
+      <% if (book.volumeInfo) { %>
+        <form action="/books/save" method="POST">
+          <input type="hidden" name="googleBookId" value="<%= book.id %>" />
+          <input type="hidden" name="title" value="<%= book.volumeInfo.title %>" />
+          <input type="hidden" name="authors" value="<%= book.volumeInfo.authors %>" />
+          <input type="hidden" name="description" value="<%= book.volumeInfo.description %>" />
+          <input type="hidden" name="coverImage"
+                 value="<%= book.volumeInfo.imageLinks?.thumbnail %>" />
+          <button type="submit">Save & View Details</button>
+        </form>
+      <% } else { %>
+        <a href="/books/preview?q=<%= query %>&id=<%= book.id %>">View Details</a>
+      <% } %>
+    </div>
+  <% }) %>
+</section>
+
+<%- include('../partials/footer') %>

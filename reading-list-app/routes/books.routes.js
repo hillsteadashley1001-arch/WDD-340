@@ -6,5 +6,6 @@ router.get('/', booksController.searchPage);
 router.get('/search', booksController.searchResults);
 router.post('/save', requireAuth, booksController.saveBook);
 router.get('/:id', booksController.showBook);
+router.get('/preview', booksController.previewBook);
 
 module.exports = router;

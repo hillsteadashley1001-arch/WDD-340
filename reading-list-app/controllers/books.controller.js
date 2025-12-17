@@ -51,3 +51,16 @@ exports.saveBook = async (req, res, next) => {
     next(err);
   }
 };
+
+exports.previewBook = async (req, res, next) => {
+  try {
+    const results = await searchBooks(req.query.q);
+    const book = results.find(b => b.id === req.query.id);
+
+    if (!book) return res.redirect('/books');
+
+    res.render('books/preview', { book });
+  } catch (err) {
+    next(err);
+  }
+};

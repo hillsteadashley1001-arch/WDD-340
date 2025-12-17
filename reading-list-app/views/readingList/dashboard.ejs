@@ -1,0 +1,31 @@
+<%- include('../partials/header', { title: 'My Reading List' }) %>
+
+<h1>My Reading List</h1>
+
+<% if (items.length === 0) { %>
+  <p>No books in your reading list yet.</p>
+<% } %>
+
+<ul>
+  <% items.forEach(item => { %>
+    <li>
+      <strong><%= item.book.title %></strong>
+      (<%= item.status %>)
+
+      <form action="/reading-list/<%= item._id %>/update" method="POST">
+        <select name="status">
+          <option value="to-read">To Read</option>
+          <option value="reading">Reading</option>
+          <option value="completed">Completed</option>
+        </select>
+        <button type="submit">Update</button>
+      </form>
+
+      <form action="/reading-list/<%= item._id %>/delete" method="POST">
+        <button type="submit">Remove</button>
+      </form>
+    </li>
+  <% }) %>
+</ul>
+
+<%- include('../partials/footer') %>

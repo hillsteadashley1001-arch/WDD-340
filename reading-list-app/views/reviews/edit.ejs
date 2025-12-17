@@ -1,0 +1,22 @@
+<%- include('../partials/header', { title: 'Edit Review' }) %>
+
+<h1>Edit Review</h1>
+
+<form action="/reviews/<%= review._id %>/update" method="POST">
+  <label>
+    Rating:
+    <select name="rating">
+      <% for (let i = 1; i <= 5; i++) { %>
+        <option value="<%= i %>" <%= review.rating === i ? 'selected' : '' %>>
+          <%= i %>
+        </option>
+      <% } %>
+    </select>
+  </label>
+
+  <textarea name="reviewText" required><%= review.reviewText %></textarea>
+
+  <button type="submit">Save Changes</button>
+</form>
+
+<%- include('../partials/footer') %>
