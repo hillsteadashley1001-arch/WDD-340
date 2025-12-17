@@ -45,4 +45,9 @@ app.use((err, req, res, next) => {
   res.status(500).render('error', { error: err });
 });
 
+/* ---------- HOOK ROUTES INTO APP ---------- */
+app.use('/books', require('./routes/books.routes'));
+app.use('/reading-list', require('./routes/readingList.routes'));
+app.use('/reviews', require('./routes/reviews.routes'));
+
 module.exports = app;
